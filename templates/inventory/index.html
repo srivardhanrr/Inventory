@@ -1,0 +1,104 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %} Dashboard {% endblock title %}
+
+{% block extra_css %}
+
+    <!-- datepicker -->
+    <link href="{% static 'libs/air-datepicker/dist/css/datepicker.min.css' %}" rel="stylesheet" type="text/css" />
+
+    <!-- jvectormap -->
+    <link href="{% static 'libs/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet" />
+
+{% endblock extra_css %}
+
+{% block pagetitle %}
+            <!-- Page-Title -->
+            <div class="page-title-box">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="page-title mb-1">Inventory List</h4>
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">Welcome {{ user.username }}</li>
+                            </ol>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="float-end d-none d-md-block">
+                                <div class="dropdown d-inline-block">
+                                    <a type="button" href="{% url 'inventory:new-stock' %}" class="btn btn-light rounded-pill user text-start d-flex align-items-center" aria-haspopup="true" aria-expanded="false">
+                                        <i class="mdi mdi-stocking me-1"></i> Add New Stock
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title end breadcrumb -->
+{% endblock pagetitle %}
+
+{% block content %}
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+{#                            <h4 class="header-title">Striped rows</h4>#}
+{#                            <p class="card-title-desc">Use <code>.table-striped</code> to add zebra-striping to any table row within the <code>&lt;tbody&gt;</code>.</p>#}
+
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Quantity Sqft</th>
+                                            <th>Quantity Pcs</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    {% if object_list %}
+                                    <tbody>
+                                    {% for stock in object_list %}
+                                        <tr>
+                                            <th><img class="header-profile-user" src="{% static 'images/users/avatar-1.jpg' %}" alt="Header Avatar"></th>
+                                            <td>{{ stock.name }}</td>
+                                            <td>{{ stock.quantity_sqft }}</td>
+                                            <td>{{ stock.quantity_pcs }}</td>
+                                            <td class="align-middle">
+                                                <div class="column">
+                                                    <a href="{% url 'inventory:edit-stock' stock.pk %}" class="btn btn-primary">Edit Details</a>
+                                                    <a href="{% url 'inventory:delete-stock' stock.pk %}" class="btn btn-danger"> Delete Stock </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                    {% endif %}
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock content %}
+
+{% block extra_js %}
+
+    <!-- datepicker -->
+    <script src="{% static 'libs/air-datepicker/dist/js/datepicker.min.js' %}"></script>
+    <script src="{% static 'libs/air-datepicker/dist/js/i18n/datepicker.en.js' %}"></script>
+
+    <!-- apexcharts -->
+    <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+
+    <script src="{% static 'libs/jquery-knob/dist/jquery.knob.min.js' %}"></script>
+
+    <!-- Jq vector map -->
+    <script src="{% static 'libs/jqvmap/dist/jquery.vmap.min.js' %}"></script>
+    <script src="{% static 'libs/jqvmap/dist/maps/jquery.vmap.usa.js' %}"></script>
+
+    <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+{% endblock extra_js %}
