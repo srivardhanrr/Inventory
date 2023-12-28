@@ -5,7 +5,7 @@
 
 
 {% block pagetitle %}
-    {% include "partials/page-title.html" with pagetitle="Inventory" title='Delete Stock' %}
+    {% include "partials/page-title.html" with pagetitle="Sales" title='Delete Sale' %}
 {% endblock pagetitle %}
 
 {% block content %}
@@ -18,15 +18,15 @@
                         <fieldset class="form-group">
                             <div style="color:#ea2027; font-style: bold; font-size: 2rem; border-bottom: 1px solid white;">
                                 Delete
-                                Stock Item
+                                Sale Bill
                             </div>
                             <br>
-                            <h4>Are you sure you want to delete the Stock item: {{ object.name }}?</h4>
+                            <h4>Are you sure you want to delete the Sale Bill No: {{ object.billno }}?</h4>
                         </fieldset>
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                            <a href="{% url 'inventory:inventory' %}" class="btn btn-warning">Cancel</a>
+                            <a href="{% url 'transactions:purchases-list' %}" class="btn btn-warning">Cancel</a>
                         </div>
 
                     </form>

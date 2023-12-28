@@ -63,4 +63,4 @@ class StockDeleteView(View):  # view class to delete stock
         stock.is_deleted = True
         stock.save()
         messages.success(request, self.success_message)
-        return redirect('inventory')
+        return redirect('inventory:inventory')

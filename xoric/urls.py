@@ -39,6 +39,7 @@ urlpatterns = [
                   # components
                   path('components/', include('components.urls')),
                   path('inventory/', include('inventory.urls')),
+                  path('transactions/', include('transactions.urls')),
 
                   path(
                       "account/password/change/",

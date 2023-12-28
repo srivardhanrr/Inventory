@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'pages',
     'components',
     'inventory',
+    'transactions',
 
     # Crispy Forms
     "crispy_forms",

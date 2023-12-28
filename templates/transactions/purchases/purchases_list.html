@@ -1,0 +1,118 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %} {{ title }} {% endblock title %}
+
+{% block extra_css %}
+
+    <!-- datepicker -->
+    <link href="{% static 'libs/air-datepicker/dist/css/datepicker.min.css' %}" rel="stylesheet" type="text/css"/>
+
+    <!-- jvectormap -->
+    <link href="{% static 'libs/jqvmap/dist/jqvmap.min.css' %}" rel="stylesheet"/>
+
+{% endblock extra_css %}
+
+{% block pagetitle %}
+    <!-- Page-Title -->
+    <div class="page-title-box">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h4 class="page-title mb-1">Purchase List</h4>
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item active">Welcome {{ user.username }}</li>
+                    </ol>
+                </div>
+                <div class="col-md-4">
+                    <div class="float-end d-none d-md-block">
+                        <div class="dropdown d-inline-block">
+                            <a type="button" href="{% url 'transactions:select-supplier' %}"
+                               class="btn btn-light rounded-pill user text-start d-flex align-items-center"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="mdi mdi-stocking me-1"></i> Add New Purchase
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end page title end breadcrumb -->
+{% endblock pagetitle %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+{#                    <h4 class="header-title">Purchase List</h4>#}
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                            <tr>
+                                <th width="10%">Bill No</th>
+                                <th width="15%">Supplier</th>
+                                <th width="15%">Stocks Purchased</th>
+                                <th width="10%">Quantity Purchased</th>
+                                <th width="15%">Total Purchased Price</th>
+                                <th width="10%">Purchased Date</th>
+                                <th width="25%">Options</th>
+                            </tr>
+                            </thead>
+                            {% if bills %}
+                                <tbody>
+                                {% for purchase in bills %}
+                                    <tr>
+                                        <td>{{ purchase.billno }}</td>
+                                        <td class="">
+                                            {% if purchase.supplier.is_deleted %}
+                                                {{ purchase.supplier }}<br>
+                                            {% else %}
+                                                <a href="{% url 'transactions:supplier' purchase.supplier.name %}">{{ purchase.supplier }}</a>
+                                                <br>
+                                            {% endif %}
+                                            <small style="color: #909494">Ph No : {{ purchase.supplier.phone }}</small>
+                                        </td>
+                                        <td class="align-middle">{% for item in purchase.get_items_list %}
+                                            {{ item.stock.name }} <br> {% endfor %}</td>
+                                        <td class="align-middle">{% for item in purchase.get_items_list %}
+                                            {{ item.quantity_sqft }} <br> {% endfor %}</td>
+                                        <td class="align-middle">{{ purchase.get_total_price }}</td>
+                                        <td class="align-middle">{{ purchase.time.date }}</td>
+                                        <td class="align-middle">
+                                            <a href="{% url 'transactions:purchase-bill' purchase.billno %}"
+                                               class="btn btn-primary">View Bill</a>
+                                            <a href="{% url 'transactions:delete-purchase' purchase.pk %}"
+                                               class="btn btn-danger">Delete Bill</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            {% endif %}
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block extra_js %}
+
+    <!-- datepicker -->
+    <script src="{% static 'libs/air-datepicker/dist/js/datepicker.min.js' %}"></script>
+    <script src="{% static 'libs/air-datepicker/dist/js/i18n/datepicker.en.js' %}"></script>
+
+    <!-- apexcharts -->
+    <script src="{% static 'libs/apexcharts/dist/apexcharts.min.js' %}"></script>
+
+    <script src="{% static 'libs/jquery-knob/dist/jquery.knob.min.js' %}"></script>
+
+    <!-- Jq vector map -->
+    <script src="{% static 'libs/jqvmap/dist/jquery.vmap.min.js' %}"></script>
+    <script src="{% static 'libs/jqvmap/dist/maps/jquery.vmap.usa.js' %}"></script>
+
+    <script src="{% static 'js/pages/dashboard.init.js' %}"></script>
+
+{% endblock extra_js %}
